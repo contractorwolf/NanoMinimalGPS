@@ -40,6 +40,7 @@ Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 String content = "";
 char character;
 int count = 0;
+int display_count = 0;
 int pageRefreshRemaining = 147;
 bool listen = false;
 
@@ -62,7 +63,7 @@ void setup()   {
   display.println("MINIMALGPS");
   display.setTextSize(1);
   display.setTextColor(WHITE);
-  display.println("nano started: v1.1");
+  display.println("nano started: v1.2");
   
   display.display();
   
@@ -86,16 +87,16 @@ void loop() {
       }else if(character=='*'){
         listen = false; 
         
-
-        display.clearDisplay();
-        display.setCursor(0,0);
-        
+        if(display_count%8==0){
+          display.clearDisplay();
+          display.setCursor(0,0);
+        }
         // text display tests
-        display.print(content);
+        display.println(content.substring(0,20));
         //display.println("length: " + content.length());
       
         display.display();
-        
+        display_count++;
         content = "";
         //delay(100);
 
