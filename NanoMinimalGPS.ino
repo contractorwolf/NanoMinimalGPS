@@ -41,6 +41,7 @@ String content = "";
 char character;
 int count = 0;
 int pageRefreshRemaining = 147;
+bool listen = false;
 
 
 
@@ -61,7 +62,7 @@ void setup()   {
   display.println("MINIMALGPS");
   display.setTextSize(1);
   display.setTextColor(WHITE);
-  display.println("nano started");
+  display.println("nano started: v1.1");
   
   display.display();
   
@@ -74,27 +75,41 @@ void loop() {
   display.setTextSize(1);
   display.setTextColor(WHITE);
    
-  content = "";
+  
   while(Serial.available()) {
       character = Serial.read();
-      content.concat(character);
-      pageRefreshRemaining--;
+      
+      if(character=='$'){
+        content = "";
+        
+        listen = true; 
+      }else if(character=='*'){
+        listen = false; 
+        
+
+        display.clearDisplay();
+        display.setCursor(0,0);
+        
+        // text display tests
+        display.print(content);
+        //display.println("length: " + content.length());
+      
+        display.display();
+        
+        content = "";
+        //delay(100);
+
+      }
+      
+      if(listen){
+        content.concat(character);
+      }
+      
+
+      //pageRefreshRemaining--;
   }
 
-  if (content != "") {
-    if(pageRefreshRemaining<0){
-      display.clearDisplay();
-      display.setCursor(0,0);
-      pageRefreshRemaining = 147;
-    }
-    
-    // text display tests
-    display.print(content);
-    //display.println("length: " + content.length());
-  
-    display.display();
-    //delay(200);
-  }
+
   
  // delay(200);
 }
