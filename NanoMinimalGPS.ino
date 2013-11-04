@@ -63,6 +63,7 @@ int count = 0;
 int display_count = 0;
 
 bool listen = false;
+String marker = "";
 
 //setup: start screen and gps serial communication
 void setup()   {                
@@ -131,22 +132,24 @@ void loop() {
           //space between
           display.println(" ");   
           
-          // show NS position          
+          // show NS position 
+ 
+ 
+          display.print("     ");   
           display.print(content.substring(18,27));
           display.println(content.substring(28,29));         
          
-          // show EW position             
+          // show EW position  
+          display.print("     ");             
           display.print(content.substring(31,40));          
           display.println(content.substring(41,42));      
-              
-          //space between
-          display.println(" ");   
+               
                     
           display.setTextSize(1);
           display.setTextColor(WHITE);
           
           //show other data
-          display.println(content.substring(43,58));           
+          display.println(content);           
           
           display.display();
         }
