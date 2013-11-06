@@ -78,15 +78,28 @@ void setup()   {
   display.clearDisplay();
   
   // text display tests
-  display.setCursor(0,0);
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.println("MINIMALGPS");
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.println("Nano Started: v1.3");
-  display.println(" ");    
-  display.println("time, position, data");
+  //display.setCursor(0,0);
+  //display.setTextSize(2);
+  //display.setTextColor(WHITE);
+  //display.println("MINIMALGPS");
+  
+  WriteTextToDisplay(0, 0, 2, "MINIMALGPS"); 
+  
+  
+  
+  //display.setTextSize(1);
+  //display.setTextColor(WHITE);
+  //display.println("NanoX Started: v1.3");
+  //display.println(" ");    
+  //display.println("time, position, data");
+  
+  
+    WriteTextToDisplay(0, 35, 1, "NanoX Started: v1.3"); 
+  
+  
+      //WriteTextToDisplay(0, 55, 1, "time, position, data"); 
+  
+  
   display.display();
   
   delay(3000);
@@ -111,45 +124,29 @@ void loop() {
         
         //show just GPGGA sentence because it contains all of the data we need
         if(content.substring(0,6)=="$GPGGA"){
+          
+          String current_sentence = content;
           display.clearDisplay();
-          display.setCursor(0,0);
           
-          display.setTextSize(2);
-          display.setTextColor(WHITE);
-          
-          // show time
-          display.print(" ");          
-          display.print(content.substring(7,9));
-          display.print(":");
-          display.print(content.substring(9,11));  
-          display.print(":");         
-          display.println(content.substring(11,13));         
+
+      
+        //show time
+        WriteTextToDisplay(5, 0, 3, content.substring(7,9));
+        WriteTextToDisplay(35, 0, 3, ":");
+        WriteTextToDisplay(46, 0, 3, content.substring(9,11));
+        WriteTextToDisplay(75, 0, 3, ":");
+        WriteTextToDisplay(86, 0, 3, content.substring(11,13));
         
-          //smaller, to fit position data
-          display.setTextSize(1);
-          display.setTextColor(WHITE);
           
-          //space between
-          display.println(" ");   
-          
+
           // show NS position 
- 
- 
-          display.print("     ");   
-          display.print(content.substring(18,27));
-          display.println(content.substring(28,29));         
+          WriteTextToDisplay(1, 30, 2, content.substring(18,27));
+          WriteTextToDisplay(110, 30, 2, content.substring(28,29));      
          
           // show EW position  
-          display.print("     ");             
-          display.print(content.substring(31,40));          
-          display.println(content.substring(41,42));      
-               
-                    
-          display.setTextSize(1);
-          display.setTextColor(WHITE);
+          WriteTextToDisplay(1, 50, 2, content.substring(31,40));
+          WriteTextToDisplay(110, 50, 2, content.substring(41,42));     
           
-          //show other data
-          display.println(content);           
           
           display.display();
         }
@@ -175,6 +172,16 @@ void loop() {
   }
 
  // delay(200);
+
 }
+
+
+void WriteTextToDisplay(int x, int y, int fontsize, String messagetext){
+  display.setCursor(x,y);
+  display.setTextSize(fontsize);
+  display.setTextColor(WHITE);
+  display.print(messagetext);
+}
+
 
 
